@@ -68,9 +68,7 @@ func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, g
 			return
 		}
 
-		log.Printf("Acked message %s \n", msg.Body)
-
-		log.Printf("Sending email to %s \n", userEmail)
+		log.Printf("Acked message %s and sending email to %s \n", msg.Body, userEmail)
 
 		email := entities.Email{
 			To:      userEmail,
