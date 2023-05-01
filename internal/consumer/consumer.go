@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/sesv2"
 	"github.com/quessapp/toolkit/crypto"
 	"github.com/quessapp/toolkit/entities"
+	"github.com/quessapp/toolkit/i18n"
 	"github.com/quessapp/toolkit/queue"
 	"github.com/streadway/amqp"
 )
@@ -37,6 +38,7 @@ func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, g
 
 		userEmail := splittedMessage[0]
 		ip := splittedMessage[1]
+		locale := splittedMessage[2]
 
 		log.Printf("Searching for IP: %s \n", ip)
 
@@ -72,8 +74,8 @@ func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, g
 
 		email := entities.Email{
 			To:      userEmail,
-			Subject: "Novo login desconhecido",
-			Body:    fmt.Sprintf("Percebemos que você fez login em um novo dispositivo. Oriundo de %s, %s no %s. Se foi você, não há nada para você fazer agora. Se não foi você, entre em contato com a gente imediatamente.", location.City, location.State, location.CountryName),
+			Subject: i18n.Translate(locale, "emails_unkown_login_attempt_subject"),
+			Body:    fmt.Sprintf("%s %s, %s - %s", i18n.Translate(locale, "emails_unkown_login_attempt_body"), location.City, location.State, location.CountryName),
 		}
 
 		emailParsed, err := json.Marshal(email)

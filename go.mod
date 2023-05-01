@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.17.2
 	github.com/joho/godotenv v1.5.1
-	github.com/quessapp/toolkit v0.0.0-20230401193457-e72612d18129
+	github.com/quessapp/toolkit v0.0.0-20230501012413-1253cff62719
 	github.com/streadway/amqp v1.0.0
 )
 

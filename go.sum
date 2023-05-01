@@ -51,8 +51,8 @@ github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe/go.mod h1:wL8QJ
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/quessapp/toolkit v0.0.0-20230401193457-e72612d18129 h1:RCZBCzd2SS/+4vsUrq/KA3dL8oiCpwlFlk95XhLefN4=
-github.com/quessapp/toolkit v0.0.0-20230401193457-e72612d18129/go.mod h1:ZeoZRFuZIozls8UciiR+2piYiEkZVPYQ4EAfp5c8d6M=
+github.com/quessapp/toolkit v0.0.0-20230501012413-1253cff62719 h1:JspnaUCTMECAKHORp4Ai8DFZ6v4P8/U0+Ccxao5Qv7Q=
+github.com/quessapp/toolkit v0.0.0-20230501012413-1253cff62719/go.mod h1:GlCTXYM2eYYwk61NMcRavzedBt7sefkVK8C0R+vHWaA=
 github.com/streadway/amqp v1.0.0 h1:kuuDrUJFZL1QYL9hUNuCxNObNzB0bV/ZG5jV3RWAQgo=
 github.com/streadway/amqp v1.0.0/go.mod h1:AZpEONHx3DKn8O/DFsRAY58/XVQiIPMTMB1SddzLXVw=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
