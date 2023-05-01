@@ -6,7 +6,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/sesv2"
 	"github.com/quessapp/toolkit/crypto"
@@ -15,6 +14,12 @@ import (
 	"github.com/quessapp/toolkit/queue"
 	"github.com/streadway/amqp"
 )
+
+type Message struct {
+	SendToEmail string
+	IP          string
+	Locale      string
+}
 
 // Consume Consumes from queue then publishes messages.
 func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, geoServiceQueueName, emailServiceQueueName, cipherKey, mailFrom string) {
@@ -34,15 +39,16 @@ func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, g
 			return
 		}
 
-		splittedMessage := strings.Split(decryptedMessage, "-")
+		var message Message
+		err = json.Unmarshal([]byte(decryptedMessage), &message)
 
-		userEmail := splittedMessage[0]
-		ip := splittedMessage[1]
-		locale := splittedMessage[2]
+		if err != nil {
+			log.Printf("Error unmarshalling: %s \n", err)
+		}
 
-		log.Printf("Searching for IP: %s \n", ip)
+		log.Printf("Searching for IP: %s \n", message.IP)
 
-		r, err := http.Get("https://geolocation-db.com/json/" + ip)
+		r, err := http.Get("https://geolocation-db.com/json/" + message.IP)
 
 		if err != nil {
 			log.Println(err)
@@ -68,12 +74,12 @@ func Consume(geoServiceCh, emailServiceCh *amqp.Channel, client *sesv2.Client, g
 			return
 		}
 
-		log.Printf("Acked message %s and sending email to %s \n", msg.Body, userEmail)
+		log.Printf("Acked message %s and sending email to %s \n", msg.Body, message.SendToEmail)
 
 		email := entities.Email{
-			To:      userEmail,
-			Subject: i18n.Translate(locale, "emails_unkown_login_attempt_subject"),
-			Body:    fmt.Sprintf("%s %s, %s - %s", i18n.Translate(locale, "emails_unkown_login_attempt_body"), location.City, location.State, location.CountryName),
+			To:      message.SendToEmail,
+			Subject: i18n.Translate(message.Locale, "emails_unkown_login_attempt_subject"),
+			Body:    fmt.Sprintf("%s %s, %s - %s", i18n.Translate(message.Locale, "emails_unkown_login_attempt_body"), location.City, location.State, location.CountryName),
 		}
 
 		emailParsed, err := json.Marshal(email)
